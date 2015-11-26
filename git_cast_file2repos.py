@@ -40,13 +40,9 @@ def compare_filehashes(afile, bfile):
      - False otherwise
     """
     h1 = compute_hash(afile)
-    h2 = compute_hash(afile)
-    if h1 == h2:
-        return True
-    else:
-        return False
+    h2 = compute_hash(bfile)
+    return h1 == h2
     
-
 
 if __name__ == "__main__":
     
@@ -62,10 +58,11 @@ if __name__ == "__main__":
                 newfile = join(newrepo, fname)
                 arg = abspath(arg)
                 newfile = abspath(newfile)
-                if compare_filehashes(arg, newfile):
-                    # the files are the same or 
-                    continue
                 if isfile(newfile):
+                    if compare_filehashes(arg, newfile):
+                        # the files are the same or
+                        print(newfile)
+                        continue
                     # update the file in each repository
                     print("Copying {} to {}".format(arg, newfile))
                     shutil.copy2(arg, newfile)
