@@ -12,10 +12,11 @@ from __future__ import print_function
 
 import hashlib
 import os
-from os.path import abspath, relpath, dirname, isfile, join
+from os.path import abspath, relpath, dirname, isfile, join, basename
 import shutil
 import subprocess as sp
 import sys
+import traceback
 
 def compute_hash(afile, blocksize=65536):
     """
@@ -61,7 +62,6 @@ if __name__ == "__main__":
                 if isfile(newfile):
                     if compare_filehashes(arg, newfile):
                         # the files are the same or
-                        print(newfile)
                         continue
                     # update the file in each repository
                     print("Copying {} to {}".format(arg, newfile))
@@ -72,7 +72,7 @@ if __name__ == "__main__":
                         errorcode = sp.check_output("git commit -a -m 'update {} with {}'".format(fname, basename(__file__)), shell=True)
                         print("Commit returned:", errorcode)
                     except:
-                        pass
+                        print(traceback.format_exc())
                     finally:
                         sp.check_output("git push", shell=True)
                             
