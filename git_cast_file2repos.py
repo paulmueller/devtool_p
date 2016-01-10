@@ -7,6 +7,18 @@ run git commit and git push.
 root of repositories:
 
 $HOME/repos
+
+
+Command line arguments:
+
+--replace_name
+    Add this if you would like to replace all occurences of the repository
+    name in the path. E.g. if you want to copy
+    
+    /home/user/repos/Foo/foo/version.py -> /home/user/repos/Bar/bar/version.py
+    
+    By default, only this would work:
+    /home/user/repos/Foo/foo/version.py -> /home/user/repos/Bar/foo/version.py
 """
 from __future__ import print_function
 
@@ -48,7 +60,10 @@ def compare_filehashes(afile, bfile):
 if __name__ == "__main__":
     
     root = join(os.environ["HOME"], "repos")
-    for arg in sys.argv:
+
+    replace_name = sys.argv.count("--replace_name")
+    
+    for arg in sys.argv[1:]:
         if isfile(arg):
             # we are dealing with a file
             rel = relpath(arg, root)
@@ -56,7 +71,13 @@ if __name__ == "__main__":
             for r in os.listdir(root):
                 # recurse through all repositories
                 newrepo = join(root, r)
-                newfile = join(newrepo, fname)
+                if replace_name:
+                    _oldreponame = basename(repo).lower()
+                    _newreponame = basename(newrepo).lower()
+                    fname2 = fname.replace(_oldreponame, _newreponame)
+                else:
+                    fname2 = fname
+                newfile = join(newrepo, fname2)
                 arg = abspath(arg)
                 newfile = abspath(newfile)
                 if isfile(newfile):
@@ -69,10 +90,12 @@ if __name__ == "__main__":
                     print("Commit-Pushing")
                     os.chdir(newrepo)
                     try:
-                        errorcode = sp.check_output("git commit -a -m 'update {} with {}'".format(fname, basename(__file__)), shell=True)
+                        errorcode = sp.check_output("git commit -a -m 'update {} with {}'".format(fname2, basename(__file__)), shell=True)
                         print("Commit returned:", errorcode)
+                        pass
                     except:
                         print(traceback.format_exc())
                     finally:
+                        pass
                         sp.check_output("git push", shell=True)
                             
