@@ -92,10 +92,8 @@ if __name__ == "__main__":
                     try:
                         errorcode = sp.check_output("git commit -a -m 'update {} with {}'".format(fname2, basename(__file__)), shell=True)
                         print("Commit returned:", errorcode)
-                        pass
+                        sp.check_output("git push", shell=True)
                     except:
                         print(traceback.format_exc())
-                    finally:
-                        pass
-                        sp.check_output("git push", shell=True)
+                        
                             
