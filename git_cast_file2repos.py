@@ -5,26 +5,33 @@ Copy a file to all directories on same level that contain same file and
 run git commit and git push.
 
 root of repositories:
+    
+    $HOME/repos
 
-$HOME/repos
+
+Example usage:
+
+    # Update all all checked-out repositories under "repos" with "_version.py"
+    python git_cast_file2repos.py --replace_name /home/paul/repos/nrefocus/nrefocus/_version.py
+    
 
 
 Command line arguments:
 
---replace_name
-    Add this if you would like to replace all occurences of the repository
-    name in the path. E.g. if you want to copy
-    
-    /home/user/repos/Foo/foo/version.py -> /home/user/repos/Bar/bar/version.py
-    
-    By default, only this would work:
-    /home/user/repos/Foo/foo/version.py -> /home/user/repos/Bar/foo/version.py
+    --replace_name
+        Add this if you would like to replace all occurences of the repository
+        name in the path. E.g. if you want to copy
+        
+        /home/user/repos/Foo/foo/version.py -> /home/user/repos/Bar/bar/version.py
+        
+        By default, only this would work:
+        /home/user/repos/Foo/foo/version.py -> /home/user/repos/Bar/foo/version.py
 """
 from __future__ import print_function
 
 import hashlib
 import os
-from os.path import abspath, relpath, dirname, isfile, join, basename
+from os.path import abspath, relpath, isfile, join, basename
 import shutil
 import subprocess as sp
 import sys
