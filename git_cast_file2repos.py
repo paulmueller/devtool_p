@@ -12,13 +12,13 @@ root of repositories:
 Example usage:
 
     # Update all all checked-out repositories under "repos" with "_version.py"
-    python git_cast_file2repos.py --replace_name /home/paul/repos/nrefocus/nrefocus/_version.py
+    python git_cast_file2repos.py --replace-name /home/paul/repos/nrefocus/nrefocus/_version.py
     
 
 
 Command line arguments:
 
-    --replace_name
+    --replace-name
         Add this if you would like to replace all occurences of the repository
         name in the path. E.g. if you want to copy
         
@@ -68,7 +68,7 @@ if __name__ == "__main__":
     
     root = join(os.environ["HOME"], "repos")
 
-    replace_name = sys.argv.count("--replace_name")
+    replace_name = sys.argv.count("--replace-name")
     
     for arg in sys.argv[1:]:
         if isfile(arg):
