@@ -97,7 +97,8 @@ if __name__ == "__main__":
                     print("Commit-Pushing")
                     os.chdir(newrepo)
                     try:
-                        errorcode = sp.check_output("git commit -a -m 'update {} with {}'".format(fname2, basename(__file__)), shell=True)
+                        sp.check_output("git add '{}'".format(fname2), shell=True)
+                        errorcode = sp.check_output("git commit -m 'update {} with {}'".format(fname2, basename(__file__)), shell=True)
                         print("Commit returned:", errorcode)
                         sp.check_output("git push", shell=True)
                     except:
